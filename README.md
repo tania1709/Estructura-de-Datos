@@ -1,2 +1,3 @@
 # Estructura-de-Datos
-Semana 02
+Tania Guamán 
+Paralelo ¨C ¨
