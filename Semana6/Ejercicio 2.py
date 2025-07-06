@@ -1,5 +1,3 @@
-[00:12, 6/7/2025] Tania:
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
