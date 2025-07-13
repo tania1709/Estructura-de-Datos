@@ -1,0 +1,91 @@
+using System;
+using System.Collections.Generic;
+
+public class TorresDeHanoi
+{
+    private Stack<int> torreA;
+    private Stack<int> torreB;
+    private Stack<int> torreC;
+    private int numeroDeDiscos;
+
+    public TorresDeHanoi(int numeroDeDiscos)
+    {
+        this.numeroDeDiscos = numeroDeDiscos;
+        torreA = new Stack<int>();
+        torreB = new Stack<int>();
+        torreC = new Stack<int>();
+
+        for (int i = numeroDeDiscos; i > 0; i--)
+        {
+            torreA.Push(i);
+        }
+    }
+
+    public void Resolver()
+    {
+        Console.WriteLine("Estado inicial:");
+        ImprimirTorres();
+
+        MoverDiscos(numeroDeDiscos, torreA, torreC, torreB);
+
+        Console.WriteLine("Estado final:");
+        ImprimirTorres();
+    }
+
+    private void MoverDiscos(int n, Stack<int> origen, Stack<int> destino, Stack<int> auxiliar)
+    {
+        if (n == 1)
+        {
+            MoverDisco(origen, destino);
+            return;
+        }
+
+        MoverDiscos(n - 1, origen, auxiliar, destino);
+        MoverDisco(origen, destino);
+        MoverDiscos(n - 1, auxiliar, destino, origen);
+    }
+
+    private void MoverDisco(Stack<int> origen, Stack<int> destino)
+    {
+        if (origen.Count == 0)
+        {
+            throw new InvalidOperationException("No hay discos en la torre de origen");
+        }
+
+        int disco = origen.Pop();
+        if (destino.Count > 0 && destino.Peek() < disco)
+        {
+            throw new InvalidOperationException("No se puede mover un disco grande sobre un disco pequeño");
+        }
+
+        destino.Push(disco);
+
+        Console.WriteLine($"Mover disco {disco} de la torre {ObtenerTorre(origen)} a la torre {ObtenerTorre(destino)}");
+        ImprimirTorres();
+    }
+
+    private string ObtenerTorre(Stack<int> torre)
+    {
+        if (torre == torreA) return "A";
+        if (torre == torreB) return "B";
+        return "C";
+    }
+
+    private void ImprimirTorres()
+    {
+        Console.WriteLine($"Torre A: {string.Join(", ", torreA)}");
+        Console.WriteLine($"Torre B: {string.Join(", ", torreB)}");
+        Console.WriteLine($"Torre C: {string.Join(", ", torreC)}");
+        Console.WriteLine();
+    }
+}
+
+public class Program
+{
+    public static void Main()
+    {
+        var torresDeHanoi = new TorresDeHanoi(3);
+        torresDeHanoi.Resolver();
+    }
+}
+
