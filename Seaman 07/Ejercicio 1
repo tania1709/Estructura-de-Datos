@@ -1,0 +1,47 @@
+
+using System;
+using System.Collections.Generic;
+
+public class BalanceoDeParentesis
+{
+    public static bool EstaBalanceada(string expresion)
+    {
+        var pila = new Stack<char>();
+        var pares = new Dictionary<char, char>
+        {
+            { ')', '(' },
+            { '}', '{' },
+            { ']', '[' }
+        };
+
+        foreach (var caracter in expresion)
+        {
+            if (pares.ContainsValue(caracter))
+            {
+                pila.Push(caracter);
+            }
+            else if (pares.ContainsKey(caracter))
+            {
+                if (pila.Count == 0 || pila.Pop() != pares[caracter])
+                {
+                    return false;
+                }
+            }
+        }
+
+        return pila.Count == 0;
+    }
+
+    public static void Main()
+    {
+        string expresion = "{7 + (8 * 5) - [(9 - 7) + (4 + 1)]}";
+        if (EstaBalanceada(expresion))
+        {
+            Console.WriteLine("Fórmula balanceada.");
+        }
+        else
+        {
+            Console.WriteLine("Fórmula no balanceada.");
+        }
+    }
+}
